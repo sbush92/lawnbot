@@ -1,0 +1,22 @@
+{
+  "name": "lawnbot",
+  "version": "1.0.0",
+  "description": "Lawnbot Automated Lawnmower",
+  "main": "index.js",
+  "scripts": {
+    "sass": "node-sass -w scss/ -o dist/css/ --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephenBrough/lawnbot.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StephenBrough/lawnbot/issues"
+  },
+  "homepage": "https://github.com/StephenBrough/lawnbot#readme",
+  "dependencies": {
+    "node-sass": "^4.12.0"
+  }
+}
