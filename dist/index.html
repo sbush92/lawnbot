@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <script src="grid.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,23 @@
     <link rel="stylesheet" href="css/main.css">
     <title>Lawnbot 1.0</title>
 </head>
-<body >
+
+<body>
     <h2>Welcome to Lawnbot</h2>
-<div id="userInput" class="center">
-    <div>
+    <div id="userInput" class="center">
+        <div>
             <div>Insert Rows
-                    <input type="number" name="rows" min="1" max="5" id="rows" onchange="makeGrid()">
+                <input type="number" name="rows" min="1" max="5" id="rows" onchange="makeGrid()">
             </div>
-           
+
             <div>Insert Cells
-                    <input type="number" name="cells" min="1" max="5" id="cells" onchange="makeGrid()">
+                <input type="number" name="cells" min="1" max="5" id="cells" onchange="makeGrid()">
             </div>
             <input type="file">
+        </div>
+        <button id="startButton">Start</button>
     </div>
-    <button id="startButton">Start</button>
-</div>
-<div id="grid" class="center"></div>
+    <div id="grid" class="center"></div>
 </body>
+
 </html>
-
-
-

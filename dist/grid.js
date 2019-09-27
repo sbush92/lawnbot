@@ -1,24 +1,37 @@
-
 //Global Values
 var cellArray = [];
 
 // This is an object to hold the html tags for the images.
 var lawn = {
-  grass: { id: "grass", img: "<img src='grass.png'></img>" },
-  dirt: { id: "dirt", img: "<img src='dirt.png'></img>" },
-  cutGrass: { id: "cutGrass", img: "<img src='cut-grass.png'></img>" },
-  rock: { id: "rock", img: "<img src='rock.png'></img>" },
-  tree: { id: "tree", img: "<img src='tree.png'></img>" },
+  grass: {
+    id: "grass",
+    img: "<img src='grass.png'></img>"
+  },
+  dirt: {
+    id: "dirt",
+    img: "<img src='dirt.png'></img>"
+  },
+  cutGrass: {
+    id: "cutGrass",
+    img: "<img src='cut-grass.png'></img>"
+  },
+  rock: {
+    id: "rock",
+    img: "<img src='rock.png'></img>"
+  },
+  tree: {
+    id: "tree",
+    img: "<img src='tree.png'></img>"
+  },
 };
-
 
 // Function create the table that the game will be played on
 // Parameters are the number or rows and the number of cells
 function makeGrid() {
   var previous = document.getElementById("lanwGrid");
-    if (previous != undefined) {
-      previous.remove();
-    }
+  if (previous != undefined) {
+    previous.remove();
+  }
   cellArray = [];
   var rows = document.getElementById("rows").value;
   var cells = document.getElementById("cells").value;
@@ -46,8 +59,8 @@ function makeGrid() {
 // A clock in case we want it for something, counts down from whatever we set it to in one second intervals
 // takes no parameters
 // Returns nothing
-function startClock(){
-  setInterval(function() {
+function startClock() {
+  setInterval(function () {
     countDown();
   }, 1000);
 }
@@ -55,7 +68,7 @@ function startClock(){
 // function shows time left not complete but I threw it in when we implement it in the future
 // no parameters
 function showBatteryLeft() {
-  setInterval(function() {
+  setInterval(function () {
     var time = getBatteryLeft();
     document.getElementById("battery").innerHTML = "Battery Left Is " + battery;
     checkEmpty();
@@ -77,7 +90,7 @@ function getPosition(row, col) {
 function setClickEvents() {
   var table = document.getElementsByTagName("td");
   for (var i = 0; i < table.length; i++) {
-    table[i].onclick = function() {
+    table[i].onclick = function () {
       col = this.cellIndex;
       row = this.parentNode.rowIndex;
       console.log("Cell Index is " + this.cellIndex);
@@ -91,26 +104,22 @@ function setClickEvents() {
 // Cycles through available tyles
 // Takes existing table node as parameter
 // Returns nothing
-function changeTiles(tile){
-  switch(tile.innerHTML){
+function changeTiles(tile) {
+  switch (tile.innerHTML) {
     case "<img src=\"grass.png\">":
-        gameTable.rows[row].cells[col].innerHTML = lawn.cutGrass.img;
-        break;
+      gameTable.rows[row].cells[col].innerHTML = lawn.cutGrass.img;
+      break;
     case "<img src=\"cut-grass.png\">":
-        gameTable.rows[row].cells[col].innerHTML = lawn.tree.img;
-        break;
-      case "<img src=\"tree.png\">":
+      gameTable.rows[row].cells[col].innerHTML = lawn.tree.img;
+      break;
+    case "<img src=\"tree.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.rock.img;
       break;
-      case "<img src=\"rock.png\">":
-          gameTable.rows[row].cells[col].innerHTML = lawn.dirt.img;
-          break; 
-      case "<img src=\"dirt.png\">":
+    case "<img src=\"rock.png\">":
+      gameTable.rows[row].cells[col].innerHTML = lawn.dirt.img;
+      break;
+    case "<img src=\"dirt.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.grass.img;
       break;
-  } 
+  }
 }
-
-
-
-
