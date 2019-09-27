@@ -3,20 +3,23 @@
   "version": "1.0.0",
   "description": "Lawnbot Automated Lawnmower",
   "main": "index.js",
+
   "scripts": {
-    "sass": "node-sass -w scss/ -o dist/css/ --recursive"
+    "sass": "node-sass -w scss/ -o dist/css/ --recursive",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StephenBrough/lawnbot.git"
+    "url": "git+https://github.com/stephenbrough/lawnbot.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/StephenBrough/lawnbot/issues"
   },
-  "homepage": "https://github.com/StephenBrough/lawnbot#readme",
+  "homepage": "https://stephenbrough.github.io/lawnbot",
   "dependencies": {
+    "gh-pages": "^2.1.1",
     "node-sass": "^4.12.0"
   }
 }
