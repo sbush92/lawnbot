@@ -1,8 +1,13 @@
-const CUT_GRASS = '<img src="cut-grass.png">';
-const GRASS = '<img src="grass.png">';
-const ROBOT = '<img src=\"robot.png\">';
+const CUT_GRASS = '<img src="assets/img/cut-grass.png">';
+const GRASS = '<img src="assets/img/grass.png">';
+const ROBOT = '<img src="assets/img/robot.png">';
 
 var visitedLocations;
+var path;
+
+var prevLocation;
+var iterator;
+var locationString;
 
 function mowLawn() {
 
@@ -15,71 +20,81 @@ function mowLawn() {
 	rows = document.getElementById("rows").value;
 	columns = document.getElementById("cells").value;
 
-	//var path = [];
-	var path = new Set();
+	//path = [];
+	path = new Set();
 	
 	var curRow = 0;
 	var curCol = 0;
 	
 	var nextRow = 0;
 	var nextCol = 1;
-	
-	var lawnMowed = false;
 
-	var prevLocation;
+	mowToNextTile(curRow, curCol, nextRow, nextCol);
+}
+
+function mowToNextTile(curRow, curCol, nextRow, nextCol) {
+
+	if (nextCol >= columns) {
+			
+		nextCol = 0;
+		nextRow++;
+	}
 	
-	while (!lawnMowed) {
-					
+	if (nextRow >= rows)		
+		return;
+
+	while (visitedLocations.has(JSON.stringify({row:nextRow,col:nextCol}))) {
+
+		nextCol++;
+
 		if (nextCol >= columns) {
 			
 			nextCol = 0;
 			nextRow++;
 		}
 		
-		if (nextRow >= rows) {
-			
-			lawnMowed = true;
-			continue;
-		}
-
-		//if (!visitedLocations.some(pair => pair.row == nextRow && pair.col == nextCol)) {
-		if (!visitedLocations.has(JSON.stringify({row:nextRow,col:nextCol}))) {
-			
-			path.clear();
-			findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
-			
-			prevLocation = null; 
-
-			path.forEach(
-				locationString =>
-				{
-					// prev should never be anything but robot
-					if (prevLocation && (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === ROBOT || grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === GRASS))
-						grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawn.cutGrass.img;
-
-					var location = JSON.parse(locationString);
-					if (grid.rows[location.row].cells[location.col].innerHTML === GRASS || grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS)
-						grid.rows[location.row].cells[location.col].innerHTML = ROBOT; //will need to do something special for the charging station
-
-					//visitedLocations.push(location);
-					visitedLocations.add(JSON.stringify(location));
-
-					curRow = location.row;
-					curCol = location.col;
-
-					prevLocation = location;
-
-					//would be nice to just be able to pause here, but figure something out to slow the for loop down, maybe you have to copy the set to an array***
-				}
-			);
-
-			//setInterval(() => moveMower(path), 1000);
-		}
-		
-		nextCol++;
+		if (nextRow >= rows)		
+			return;		
 	}
+		
+	path.clear();
+	findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
+	
+	prevLocation = null;
+
+	iterator = path.values();
+
+	var id = setInterval(
+		() =>
+		{
+			locationString = iterator.next().value;
+			if (!locationString)
+			{
+				clearInterval(id);
+				mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
+				return;
+			}
+
+			if (prevLocation && (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === ROBOT || grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === GRASS))
+				grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawn.cutGrass.img;
+
+			var location = JSON.parse(locationString);
+			if (grid.rows[location.row].cells[location.col].innerHTML === GRASS || grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS)
+				grid.rows[location.row].cells[location.col].innerHTML = ROBOT; //will need to do something special for the charging station
+
+			//visitedLocations.push(location);
+			visitedLocations.add(JSON.stringify(location));
+
+			curRow = location.row;
+			curCol = location.col;
+
+			prevLocation = location;
+		},
+		200
+	);
 }
 
+// this still will have problems if the tile to find is not reachable
 function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	
 	var wentLeft;
@@ -92,8 +107,18 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	
 	if (curRow === nextRow && curCol === nextCol) {
 		
-		//path.push({row: curRow, col: curCol});
-		path.add(JSON.stringify({row:curRow,col:curCol}));
+		if (grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS && grid.rows[curRow].cells[curCol].innerHTML !== GRASS && grid.rows[curRow].cells[curCol].innerHTML !== ROBOT) {
+
+			// location is not grass, mark it visited
+			//visitedLocations.push({row: curRow, col: curCol});
+			visitedLocations.add(JSON.stringify({row:curRow,col:curCol}));
+		}
+		else {
+
+			//path.push({row: curRow, col: curCol});
+			path.add(JSON.stringify({row:curRow,col:curCol}));
+		}
+
 		pathFound = true;
 		return true;
 	}
@@ -121,8 +146,8 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	wentRight = false;
 	wentDown = false;
 	
-	// prefer uncut grass first
-	if (curRow - 1 >= 0 && grid.rows[curRow - 1].cells[curCol].innerHTML === GRASS) {
+	// prefer uncut grass first, this will need some more fine-tuning before it is ready
+	/*if (curRow - 1 >= 0 && grid.rows[curRow - 1].cells[curCol].innerHTML === GRASS) {
 		
 		pathFound = findPathRecurse(path, curRow - 1, curCol, nextRow, nextCol, pathFound);
 		wentUp = true;
@@ -144,30 +169,30 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 		
 		pathFound = findPathRecurse(path, curRow + 1, curCol, nextRow, nextCol, pathFound);
 		wentDown = true;
-	}
+	}*/
 	
 	if (!wentUp && curRow > nextRow) {
 		
 		pathFound = findPathRecurse(path, curRow - 1, curCol, nextRow, nextCol, pathFound);
-		wentLeft = true;
+		wentUp = true;
 	}
 	
 	if (!wentLeft && curCol > nextCol) {
 		
 		pathFound = findPathRecurse(path, curRow, curCol - 1, nextRow, nextCol, pathFound);
-		wentUp = true;
+		wentLeft = true;
 	}
 
 	if (!wentRight && curCol < nextCol) {
 		
 		pathFound = findPathRecurse(path, curRow, curCol + 1, nextRow, nextCol, pathFound);
-		wentDown = true;
+		wentRight = true;
 	}
 	
 	if (!wentDown && curRow < nextRow) {
 		
 		pathFound = findPathRecurse(path, curRow + 1, curCol, nextRow, nextCol, pathFound);
-		wentRight = true;
+		wentDown = true;
 	}
 		
 	if (!wentUp)
