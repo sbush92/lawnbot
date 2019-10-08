@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<script src="grid.js"></script>
-<script src="lawnbot.js"></script>
+
+<script src="js/index.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -12,21 +12,17 @@
 </head>
 
 <body>
-    <h2>Welcome to Lawnbot</h2>
-    <div id="userInput" class="center">
-        <div>
-            <div>Insert Rows
-                <input type="number" name="rows" min="1" max="5" id="rows" onchange="makeGrid()">
+    <div class="bg">
+        <div class="dark-overlay flex-container">
+            <div class="menu-background">
+                <h1 id="title">LawnBot</h1>
+                <button class="button-lawn" onclick="navigateToEditor()">Create New Lawn</button>
+                <button class="button-lawn" onclick="loadFile()">Load Lawn</button>
+                <input type="file" id="file" style="display: none" name="image" accept=".txt">
             </div>
-
-            <div>Insert Cells
-                <input type="number" name="cells" min="1" max="5" id="cells" onchange="makeGrid()">
-            </div>
-            <input type="file">
         </div>
-        <button id="startButton" onclick="mowLawn()">Start</button>
     </div>
-    <div id="grid" class="center"></div>
+
 </body>
 
 </html>

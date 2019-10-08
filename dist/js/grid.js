@@ -5,23 +5,23 @@ var cellArray = [];
 var lawn = {
   grass: {
     id: "grass",
-    img: "<img src='grass.png'></img>"
+    img: "<img src='assets/img/grass.png'></img>"
   },
   dirt: {
     id: "dirt",
-    img: "<img src='dirt.png'></img>"
+    img: "<img src='assets/img/dirt.png'></img>"
   },
   cutGrass: {
     id: "cutGrass",
-    img: "<img src='cut-grass.png'></img>"
+    img: "<img src='assets/img/cut-grass.png'></img>"
   },
   rock: {
     id: "rock",
-    img: "<img src='rock.png'></img>"
+    img: "<img src='assets/img/rock.png'></img>"
   },
   tree: {
     id: "tree",
-    img: "<img src='tree.png'></img>"
+    img: "<img src='assets/img/tree.png'></img>"
   },
 };
 
@@ -49,7 +49,7 @@ function makeGrid() {
     for (var j = 0; j < cells; j++) {
       cellArray.push(cellCount);
       cellArray[cellCount] = rowArray[i].insertCell(j);
-      cellArray[cellCount].innerHTML = "<img src='grass.png'></img>"
+      cellArray[cellCount].innerHTML = "<img src='assets/img/grass.png'></img>"
       cellCount++;
     }
   }
@@ -106,19 +106,19 @@ function setClickEvents() {
 // Returns nothing
 function changeTiles(tile) {
   switch (tile.innerHTML) {
-    case "<img src=\"grass.png\">":
+    case "<img src=\"assets/img/grass.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.cutGrass.img;
       break;
-    case "<img src=\"cut-grass.png\">":
+    case "<img src=\"assets/img/cut-grass.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.tree.img;
       break;
-    case "<img src=\"tree.png\">":
+    case "<img src=\"assets/img/tree.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.rock.img;
       break;
-    case "<img src=\"rock.png\">":
+    case "<img src=\"assets/img/rock.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.dirt.img;
       break;
-    case "<img src=\"dirt.png\">":
+    case "<img src=\"assets/img/dirt.png\">":
       gameTable.rows[row].cells[col].innerHTML = lawn.grass.img;
       break;
   }

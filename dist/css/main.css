@@ -1,2 +1,54 @@
-body {
-  background: #fff; }
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web&display=swap");
+/* Button Colors */
+body, html {
+  margin: 0;
+  height: 100%; }
+
+.bg {
+  background: url("../assets/img/lawn-landing.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover; }
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.54);
+  height: 100%; }
+
+.menu-background {
+  border-radius: 44px;
+  background: rgba(255, 255, 255, 0.09);
+  width: 30em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly; }
+
+.button-lawn {
+  border-radius: 8px;
+  background: #92BF4E;
+  border: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  color: #1B4001;
+  width: 70%;
+  height: 2.75em; }
+
+.button-lawn:hover {
+  background: #B5D99C; }
+
+#title {
+  font-family: Titillium Web;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 5em;
+  margin: 0 auto;
+  color: #B5D99C; }
