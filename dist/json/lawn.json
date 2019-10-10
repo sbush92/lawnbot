@@ -1,0 +1,24 @@
+{
+    "lawn": {
+        "rows": 3,
+        "colums": 4,
+        "tiles": [{
+                "name": "rock",
+                "row": 2,
+                "colum": 0
+            },
+            {
+                "name": "tree",
+                "row": 0,
+                "colum": 1
+            },
+            {
+                "name": "dirt",
+                "row": 1,
+                "colum": 2
+            }
+        ]
+
+    }
+
+}

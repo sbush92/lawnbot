@@ -56,6 +56,29 @@ function makeGrid() {
   setClickEvents();
 }
 
+function loadLawn(){
+var lawnStorage = localStorage.getItem("lawn");
+if(lawnStorage != null){
+  var lawnObject = JSON.parse(lawnStorage);
+  document.getElementById("rows").value = lawnObject.lawn.rows;
+  document.getElementById("cells").value = lawnObject.lawn.colums;
+  makeGrid();
+  console.log(lawnObject);
+  lawnObject.lawn.tiles.forEach(tile => {
+    console.log(tile);
+    setTile(gameTable.rows[tile.row].cells[tile.colum], tile.name);
+    
+  });
+
+}
+//Implement after testing
+//localStorage.clear();
+}
+
+function setobstacles(){
+
+} 
+
 // A clock in case we want it for something, counts down from whatever we set it to in one second intervals
 // takes no parameters
 // Returns nothing
@@ -98,6 +121,21 @@ function setClickEvents() {
       changeTiles(gameTable.rows[row].cells[col]);
 
     };
+  }
+}
+
+function setTile(tile, name){
+  switch (name) {
+    case "rock":
+     tile.innerHTML = lawn.rock.img;
+      break;
+    case "tree":
+      tile.innerHTML = lawn.tree.img;
+      break;
+    case "dirt":
+      tile.innerHTML = lawn.dirt.img;
+      break;
+
   }
 }
 

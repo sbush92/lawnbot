@@ -8,21 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Lawnbot 1.0</title>
 </head>
 
-<body>
+<body onload="fileListener()"> 
     <div class="bg">
         <div class="dark-overlay flex-container">
             <div class="menu-background">
                 <h1 id="title">LawnBot</h1>
                 <button class="button-lawn" onclick="navigateToEditor()">Create New Lawn</button>
                 <button class="button-lawn" onclick="loadFile()">Load Lawn</button>
-                <input type="file" id="file" style="display: none" name="image" accept=".txt">
+                <input type="file" id="file" style="display: none" name="image" accept=".json">
             </div>
         </div>
     </div>
 
 </body>
-
 </html>
