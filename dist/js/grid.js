@@ -23,6 +23,14 @@ var lawn = {
     id: "tree",
     img: "<img src='assets/img/tree.png'></img>"
   },
+  home: {
+    id: "home",
+    img: "<img src='assets/img/lawnbot-home.png'></img>"
+  },
+  away: {
+    id: "away",
+    img: "<img src='assets/img/home.png'></img>"
+  }
 };
 
 // Function create the table that the game will be played on
@@ -41,19 +49,27 @@ function makeGrid() {
   gameTable.setAttribute("id", "lanwGrid");
   board.appendChild(gameTable);
   var rowArray = [];
-
+  var first = true;
   var cellCount = 0;
   for (var i = 0; i < rows; i++) {
+
     rowArray.push(i);
     rowArray[i] = gameTable.insertRow(i);
     for (var j = 0; j < cells; j++) {
       cellArray.push(cellCount);
       cellArray[cellCount] = rowArray[i].insertCell(j);
-      cellArray[cellCount].innerHTML = "<img src='assets/img/grass.png'></img>"
+      if(first == true){
+        cellArray[cellCount].innerHTML = "<img src='assets/img/lawnbot-home.png'></img>"
+        first = false;
+      }else{
+        cellArray[cellCount].innerHTML = lawn.grass.img;
+      }
+
       cellCount++;
     }
   }
   setClickEvents();
+  first = true;
 }
 
 function loadLawn(){

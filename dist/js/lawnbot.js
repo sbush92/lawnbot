@@ -1,6 +1,8 @@
 const CUT_GRASS = '<img src="assets/img/cut-grass.png">';
 const GRASS = '<img src="assets/img/grass.png">';
 const ROBOT = '<img src="assets/img/robot.png">';
+const HOME = '<img src="assets/img/lawnbot-home.png">';
+const AWAY = '<img src="assets/img/home.png">';
 
 var visitedLocations;
 var path;
@@ -75,12 +77,39 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 				return;
 			}
 
-			if (prevLocation && (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === ROBOT || grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === GRASS))
-				grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawn.cutGrass.img;
+
+
+			if (prevLocation && (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === ROBOT || 
+				grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === GRASS ||
+				grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME ||
+				grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === AWAY
+				)){
+					if(grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME){
+						grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawn.away.img;
+					}else{
+						grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawn.cutGrass.img;
+					}
+					
+				}
+			
+			
 
 			var location = JSON.parse(locationString);
-			if (grid.rows[location.row].cells[location.col].innerHTML === GRASS || grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS)
-				grid.rows[location.row].cells[location.col].innerHTML = ROBOT; //will need to do something special for the charging station
+
+
+
+			if (grid.rows[location.row].cells[location.col].innerHTML === GRASS || 
+				grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS ||
+				grid.rows[location.row].cells[location.col].innerHTML === HOME ||
+				grid.rows[location.row].cells[location.col].innerHTML === AWAY){
+					if(grid.rows[location.row].cells[location.col].innerHTML === HOME){
+						grid.rows[location.row].cells[location.col].innerHTML = lawn.home.img;
+					}else{
+						grid.rows[location.row].cells[location.col].innerHTML = ROBOT; //will need to do something special for the charging station
+					}
+				
+				}
+	
 
 			//visitedLocations.push(location);
 			visitedLocations.add(JSON.stringify(location));
@@ -107,7 +136,10 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	
 	if (curRow === nextRow && curCol === nextCol) {
 		
-		if (grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS && grid.rows[curRow].cells[curCol].innerHTML !== GRASS && grid.rows[curRow].cells[curCol].innerHTML !== ROBOT) {
+		if (grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS && 
+			grid.rows[curRow].cells[curCol].innerHTML !== GRASS && 
+			grid.rows[curRow].cells[curCol].innerHTML !== ROBOT &&
+			grid.rows[curRow].cells[curCol].innerHTML !== HOME) {
 
 			// location is not grass, mark it visited
 			//visitedLocations.push({row: curRow, col: curCol});
@@ -126,7 +158,10 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	if (curRow < 0 || curRow >= rows || curCol < 0 || curCol >= columns)
 		return false;
 	
-	if (grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS && grid.rows[curRow].cells[curCol].innerHTML !== GRASS && grid.rows[curRow].cells[curCol].innerHTML !== ROBOT) {
+	if (grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS && 
+		grid.rows[curRow].cells[curCol].innerHTML !== GRASS && 
+		grid.rows[curRow].cells[curCol].innerHTML !== ROBOT && 
+		grid.rows[curRow].cells[curCol].innerHTML !== HOME) {
 
 		// location is not grass, mark it visited
 		//visitedLocations.push({row: curRow, col: curCol});
