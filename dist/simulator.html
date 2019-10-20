@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="js/index.js"></script>
+<script src="js/simulator.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Lawnbot 1.0</title>
+</head>
+
+<body>
+    <div class="bg-simulator">
+        <div class="dark-overlay lawn-parent-container">
+            <div class="lawn-settings">
+                <p>Lawn dimensions:</p>  
+                <form action="#" class="simple-form">
+                    <input type="number" name="height" min="1" max="5" id="height" onchange="makeGrid()">
+                </form>
+            </div>
+            <div class="lawn" id="lawn">
+                <input type="file" id="file" style="display: none" name="image" accept=".txt">
+            </div>
+            <div class="bottom-row">
+                <div class="buttons">
+                    <button class="button-start" onclick="navigateToEditor()">Start Simulation</button>
+                    <button class="button-stop" onclick="loadFile()">Stop Simulation</button>
+                    <div class="spacer"></div>
+                    <div class="spacer"></div>
+                    <div class="spacer"></div>
+                    <div class="spacer"></div>
+                </div>
+
+                <button class="timer">Elapsed Time: <span id="time">00:00:00</span></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+
+</html>

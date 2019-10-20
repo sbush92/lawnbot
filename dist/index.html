@@ -12,13 +12,14 @@
     <title>Lawnbot 1.0</title>
 </head>
 
-<body onload="fileListener()"> 
-    <div class="bg">
+<body onload="fileListener()">
+    <div class="bg-index">
         <div class="dark-overlay flex-container">
             <div class="menu-background">
                 <h1 id="title">LawnBot</h1>
                 <button class="button-lawn" onclick="navigateToEditor()">Create New Lawn</button>
                 <button class="button-lawn" onclick="loadFile()">Load Lawn</button>
+                <button class="button-lawn" onclick="navigateToSimulator()">TEST</button>
                 <input type="file" id="file" style="display: none" name="image" accept=".json">
             </div>
         </div>

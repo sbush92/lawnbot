@@ -4,8 +4,12 @@ lawnbot is a lawn cutting robot simulation
 
 ## Installation
 
-Should be none, however when working on this project I highly recommend using visual studio code.
-I also recommend installing the live server plugin which can host the page locally and make changes on save. 
+The node-sass dependency is required for compiling sass css: `npm install node-sass`
+
+To compile the sass on-the-fly, run `npn run sass`. This will launch the sass compiler and run it in the background, continuously detecting changes in scss files and compiling them to css files.
+
+Development was done with Visual Studio Code. The live server plugin was used to help with on-the-fly development changes.
+
 
 
 ## Usage

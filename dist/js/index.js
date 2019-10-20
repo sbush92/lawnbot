@@ -19,5 +19,9 @@ function fileListener(){
       window.location.href = "editor-simulator.html"
     }
     reader.readAsText(selectedFile.files[0])
-}, false)
+  }, false)
+}
+
+function navigateToSimulator() {
+  window.location.href = "simulator.html"
 }
