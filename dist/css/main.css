@@ -45,6 +45,9 @@ body, html {
 .button-lawn:hover {
   background: #B5D99C; }
 
+.hidden {
+  display: none; }
+
 #title {
   font-family: Titillium Web;
   font-style: normal;

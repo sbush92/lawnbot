@@ -26,8 +26,13 @@
             </div>
             <button id="saveButton" onclick="save()">Save</button>
         </div>
-        <button id="startButton" onclick="mowLawn()">Start</button>
+        <button id="startButton" class="button-lawn" onclick="mowLawn()">Start</button>
+        <button id="pauseButton" class="hidden" onclick="pause()">Pause</button>
+        <button id="resumeButton" class="hidden" onclick="resume()">Resume</button>
+        <button id="restartButton" class="hidden" onclick="restart()">Restart</button>
+        
     </div>
+
     <div id="grid" class="center"></div>
 </body>
 
