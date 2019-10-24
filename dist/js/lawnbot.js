@@ -80,6 +80,8 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
     if (!locationString) {
       clearInterval(id);
       if(finished === true){
+        document.getElementById("pauseButton").className = "hidden";
+        document.getElementById("restartButton").className = "button-lawn";
         return;
       }
       if(paused === true){
@@ -138,8 +140,6 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
     var cells = document.getElementById("cells").value;
     if (location.row === rows -1  && location.col === cells -1 ) {
       finished = true;
-      document.getElementById("pauseButton").className = "hidden";
-      document.getElementById("restartButton").className = "button-lawn";
       return;
     }
 
