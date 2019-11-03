@@ -8,6 +8,9 @@ function startSimulation() {
   var startTime = new Date();
   updateTime(startTime.getTime());
 
+  updateProgress(25);
+  updateBattery(50);
+
   // Start the algorithm
 
 }
@@ -15,6 +18,16 @@ function startSimulation() {
 function updateTime(time) {
   var timeSpan = document.getElementById('time');
   timeSpan.innerHTML = time;
+}
+
+function updateProgress(progress) {
+  var progressSpan = document.getElementById('progress');
+  progressSpan.innerHTML = `${progress}%`;
+}
+
+function updateBattery(charge) {
+  var batterySpan = document.getElementById('battery');
+  batterySpan.innerHTML = `${charge}%`;
 }
 
 function makeGrid() {
