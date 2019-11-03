@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+    <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
     <title>Lawnbot 1.0</title>
 </head>
 
@@ -26,8 +26,13 @@
             </div>
             <button id="saveButton" onclick="save()">Save</button>
         </div>
-        <button id="startButton" onclick="mowLawn()">Start</button>
+        <button id="startButton" class="button-lawn" onclick="mowLawn()">Start</button>
+        <button id="pauseButton" class="hidden" onclick="pause()">Pause</button>
+        <button id="resumeButton" class="hidden" onclick="resume()">Resume</button>
+        <button id="restartButton" class="hidden" onclick="restart()">Restart</button>
+        
     </div>
+
     <div id="grid" class="center"></div>
 </body>
 

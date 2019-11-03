@@ -7,12 +7,26 @@ const AWAY = '<img src="assets/img/home.png">';
 
 var visitedLocations;
 var path;
+var paused = false;
+var finished = false;
 
 var prevLocation;
 var iterator;
 var locationString;
+var pausedRow;
+var pausedCol;
+var pausedNextRow;
+var pausedNextCol;
 
 function mowLawn() {
+  //set button to invisible
+  var rows = document.getElementById("rows").value;
+  var cells = document.getElementById("cells").value;
+  if(rows >= 1 && cells >= 1){
+    document.getElementById("startButton").className = "hidden";
+    document.getElementById("pauseButton").className = "button-lawn"
+  }
+
   //visitedLocations = [{row: 0, col: 0}];
   visitedLocations = new Set();
   visitedLocations.add(JSON.stringify({ row: 0, col: 0 }));
@@ -34,7 +48,77 @@ function mowLawn() {
   mowToNextTile(curRow, curCol, nextRow, nextCol);
 }
 
+function returnToCharger(path, curRow, curCol) {
+  alert("*** Returning to the charging station ***");
+  path.clear();
+  var nextRow = 0;
+  var nextCol = 0;
+  findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
+  path.add(JSON.stringify({ row: 0, col: 0 }));
+
+  prevLocation = null;
+
+  iterator = path.values();
+
+  var id = setInterval(() => {
+    locationString = iterator.next().value;
+    if (!locationString) {
+      clearInterval(id);
+      if(finished === true){
+        return;
+      }
+    }
+    if (
+      prevLocation &&
+      (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === ROBOT ||
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === GRASS ||
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME ||
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === AWAY)
+    ) {
+      if (
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME
+      ) {
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawnHTML.away.img;
+      } else {
+        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawnHTML.cutGrass.img;
+      }
+    }
+
+    var location = JSON.parse(locationString);
+
+    if (
+      grid.rows[location.row].cells[location.col].innerHTML === GRASS ||
+      grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS ||
+      grid.rows[location.row].cells[location.col].innerHTML === HOME ||
+      grid.rows[location.row].cells[location.col].innerHTML === AWAY
+    ) {
+      if (grid.rows[location.row].cells[location.col].innerHTML === HOME) {
+        grid.rows[location.row].cells[location.col].innerHTML = lawnHTML.home.img;
+      } else if (grid.rows[location.row].cells[location.col].innerHTML === AWAY) {
+        grid.rows[location.row].cells[location.col].innerHTML = HOME;
+      } else {
+        grid.rows[location.row].cells[location.col].innerHTML = ROBOT;
+      }
+    }
+
+    visitedLocations.add(JSON.stringify(location));
+
+    curRow = location.row;
+    curCol = location.col;
+
+    prevLocation = location;
+
+    var rows = document.getElementById("rows").value;
+    var cells = document.getElementById("cells").value;
+    if (location.row === rows -1  && location.col === cells -1 ) {
+      finished = true;
+      return;
+    }
+
+  }, 200);}
+
 function mowToNextTile(curRow, curCol, nextRow, nextCol) {
+
   if (nextCol >= columns) {
     nextCol = 0;
     nextRow++;
@@ -64,8 +148,22 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
     locationString = iterator.next().value;
     if (!locationString) {
       clearInterval(id);
-      mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
-      return;
+      if(finished === true){
+        document.getElementById("pauseButton").className = "hidden";
+        document.getElementById("restartButton").className = "button-lawn";
+        returnToCharger(path, curRow, curCol);
+        return;
+      }
+      if(paused === true){
+        pausedRow = curRow; 
+        pausedCol = curCol;
+        pausedNextRow = nextRow;
+        pausedNextCol = nextCol + 1;
+        return;
+      }else{
+        mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
+        return;
+      }
     }
 
     if (
@@ -86,6 +184,7 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
     var location = JSON.parse(locationString);
 
+ 
     if (
       grid.rows[location.row].cells[location.col].innerHTML === GRASS ||
       grid.rows[location.row].cells[location.col].innerHTML === CUT_GRASS ||
@@ -106,7 +205,16 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
     curCol = location.col;
 
     prevLocation = location;
+
+    var rows = document.getElementById("rows").value;
+    var cells = document.getElementById("cells").value;
+    if (location.row === rows -1  && location.col === cells -1 ) {
+      finished = true;
+      return;
+    }
+
   }, 200);
+
 }
 
 // this still will have problems if the tile to find is not reachable
@@ -286,4 +394,27 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
   }
 
   return true;
+}
+
+function pause(){
+  paused = true;
+  document.getElementById("pauseButton").className = "hidden";
+  document.getElementById("resumeButton").className = "button-lawn";
+
+
+}
+
+function resume(){
+  paused = false;
+  document.getElementById("resumeButton").className = "hidden";
+  document.getElementById("pauseButton").className = "button-lawn";
+  mowToNextTile(pausedRow, pausedCol, pausedNextRow, pausedNextCol);
+}
+
+function restart(){
+
+  finished = false;
+  document.getElementById("restartButton").className = "hidden";
+  document.getElementById("startButton").className = "button-lawn";
+  makeGrid()
 }
