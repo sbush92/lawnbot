@@ -3,27 +3,32 @@
 /* Button Colors */
 body, html {
   margin: 0;
-  height: 100%; }
+  height: 100%; 
+}
 
 .bg-index {
   background: url("../assets/img/lawn-landing.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover; }
+  background-size: cover; 
+}
 
 .bg-simulator {
   background: url("../assets/img/simulator-bg.jpg") no-repeat center center fixed;
   height: 100%;
-  background-size: cover; }
+  background-size: cover; 
+}
 
 .flex-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; }
+  justify-content: center; 
+}
 
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.54);
-  height: 100%; }
+  height: 100%; 
+}
 
 .menu-background {
   border-radius: 44px;
@@ -33,7 +38,8 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly; }
+  justify-content: space-evenly; 
+}
 
 .button-lawn {
   border-radius: 8px;
@@ -45,13 +51,16 @@ body, html {
   font-size: 1.5em;
   color: #1B4001;
   width: 70%;
-  height: 2.75em; }
+  height: 2.75em; 
+}
 
 .button-lawn:hover {
-  background: #B5D99C; }
+  background: #B5D99C; 
+}
 
 .hidden {
-  display: none; }
+  display: none; 
+}
 
 #title {
   font-family: Titillium Web;
@@ -59,43 +68,66 @@ body, html {
   font-weight: bold;
   font-size: 5em;
   margin: 0 auto;
-  color: #B5D99C; }
+  color: #B5D99C; 
+}
 
 .lawn-parent-container {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center; 
+}
+
+.top-row {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: start; */
+  width: 90%; 
+}
 
 .lawn-settings {
   display: flex;
   flex-direction: row;
-  width: 90%; }
+}
 
 .lawn-settings p {
-  color: #eee; }
+  color: #eee; 
+}
+
+ .lawn-and-stats {
+   display: flex;
+   flex-direction: row;
+   height: 80%;
+   width: 90%;
+   margin-top: 1em;
+ }
 
 .lawn {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.09);
-  width: 90%;
-  height: 80%;
+  
+}
+
+.stats {
   display: flex;
-  margin-top: 1em;
-  flex-direction: column; }
+  flex-direction: column;
+  width: 20%;
+  height: 100%;
+  /* background: hotpink; */
+  margin-left: 1em;
+}
 
 .bottom-row {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  height: 10%;
   margin-top: 0.5em;
-  display: flex;
-  width: 90%;
-  flex-direction: row;
-  margin-bottom: 0.5em; }
-
-.buttons {
-  display: flex;
-  width: 90%;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-grow: 1; }
+  margin-bottom: 0.5em; 
+}
 
 .button-start {
   border-radius: 8px;
@@ -106,11 +138,15 @@ body, html {
   font-weight: normal;
   font-size: 1.5em;
   color: #FFFFFF;
-  flex-basis: 40%;
-  height: 2.5em; }
+  padding-left: 2em;
+  padding-right: 2em;
+  height: 2.5em; 
+  margin-right: 1em;
+}
 
 .button-start:hover {
-  background: #4D9900; }
+  background: #4D9900; 
+}
 
 .button-stop {
   border-radius: 8px;
@@ -120,14 +156,17 @@ body, html {
   font-style: normal;
   font-weight: normal;
   font-size: 1.5em;
+  padding-left: 2em;
+  padding-right: 2em;
   color: #FFFFFF;
-  flex-basis: 40%;
-  height: 2.5em; }
+  height: 2.5em; 
+}
 
 .button-stop:hover {
-  background: #990000; }
+  background: #990000; 
+}
 
-.timer {
+.stat-button {
   font-family: Roboto;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.5);
@@ -138,11 +177,13 @@ body, html {
   text-align: center;
   height: 2.5em;
   color: #FFFFFF;
-  flex-grow: 4; }
+  margin-bottom: 1em;
+}
 
 .simple-form {
   display: flex;
-  padding-bottom: 1.25rem; }
+  padding-bottom: 1.25rem; 
+}
 
 .simple-form input {
   margin: 0 .25rem;
@@ -150,32 +191,41 @@ body, html {
   border: 1px solid #eee;
   border-left: 3px solid;
   border-radius: 5px;
-  transition: border-color .5s ease-out; }
+  transition: border-color .5s ease-out; 
+}
 
 .simple-form input:optional {
-  border-left-color: #999; }
+  border-left-color: #999; 
+}
 
 .simple-form input:required {
-  border-left-color: palegreen; }
+  border-left-color: palegreen; 
+}
 
 .simple-form input:invalid {
-  border-left-color: salmon; }
+  border-left-color: salmon; 
+}
 
+  /* For the generated lawn */
 .row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  line-height: 30px; }
+  line-height: 30px; 
+}
 
+  /* For the generated lawn */
 .col {
   margin: 5px;
   color: white;
   flex: 1 0 auto;
   height: auto;
-  background-size: cover; }
+  background-size: cover; 
+}
 
 .col:before {
   content: '';
   float: left;
-  padding-top: 100%; }
+  padding-top: 100%; 
+}

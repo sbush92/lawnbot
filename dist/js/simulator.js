@@ -4,6 +4,19 @@ var lawnState = {
   "tiles": []
 };
 
+function startSimulation() {
+  var startTime = new Date();
+  updateTime(startTime.getTime());
+
+  // Start the algorithm
+
+}
+
+function updateTime(time) {
+  var timeSpan = document.getElementById('time');
+  timeSpan.innerHTML = time;
+}
+
 function makeGrid() {
   var oldLawn = document.getElementById('lawnGrid');
   if (oldLawn != undefined) {
