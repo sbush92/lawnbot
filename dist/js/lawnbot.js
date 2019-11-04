@@ -17,6 +17,7 @@ var pausedRow;
 var pausedCol;
 var pausedNextRow;
 var pausedNextCol;
+var batteryLevel = 100;
 
 function mowLawn() {
   //set button to invisible
@@ -49,7 +50,7 @@ function mowLawn() {
 }
 
 function returnToCharger(path, curRow, curCol) {
-  alert("*** Returning to the charging station ***");
+  alert("*** Battery Level : " + batteryLevel + "% ***" + "\n*** Returning to the charging station ***");
   path.clear();
   var nextRow = 0;
   var nextCol = 0;
@@ -115,7 +116,8 @@ function returnToCharger(path, curRow, curCol) {
       return;
     }
 
-  }, 200);}
+  }, 200);
+  batteryLevel = 100;}
 
 function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
@@ -239,6 +241,10 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
     } else {
       //path.push({row: curRow, col: curCol});
       path.add(JSON.stringify({ row: curRow, col: curCol }));
+      batteryLevel = batteryLevel - 5;
+      if (batteryLevel == 20) {
+        returnToCharger(path, curRow, curCol);
+      }
     }
 
     pathFound = true;
