@@ -74,7 +74,6 @@ body, html{
 }
 
 
-
 #title {
     font-family: Titillium Web;
     font-style: normal;
@@ -90,43 +89,58 @@ body, html{
     align-items: center;
 }
 
+.top-row {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: start; */
+    width: 90%; 
+  }
+
 .lawn-settings {
     display: flex;
     flex-direction: row;
-    width: 90%;
 }
 
 .lawn-settings p{
     color: #eee;
 }
 
-.lawn {
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.09);
-    width: 90%;
+.lawn-and-stats {
+    display: flex;
+    flex-direction: row;
     height: 80%;
-    display: flex;
+    width: 90%;
     margin-top: 1em;
+  }
+
+.lawn {
+    display: flex;
     flex-direction: column;
-}
+    width: 80%;
+    height: 100%;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.09);  
+  }
 
-.bottom-row {
+  .stats {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    /* background: hotpink; */
+    margin-left: 1em;
+  }
+
+  .bottom-row {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 10%;
     margin-top: 0.5em;
-    display: flex;
-    width: 90%;
-    flex-direction: row;
-    margin-bottom: 0.5em;
-}
+    margin-bottom: 0.5em; 
+  }
 
-.buttons {
-    display: flex;
-    width: 90%;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-grow: 1;
-}
-
-.button-start {
+  .button-start {
     border-radius: 8px;
     background: $button-start-normal;
     border: none;
@@ -135,9 +149,11 @@ body, html{
     font-weight: normal;
     font-size: 1.5em;
     color: #FFFFFF;
-    flex-basis: 40%;
-    height: 2.5em;
-}
+    padding-left: 2em;
+    padding-right: 2em;
+    height: 2.5em; 
+    margin-right: 1em;
+  }
 
 .button-start:hover {
     background: $button-start-hover;
@@ -151,14 +167,29 @@ body, html{
     font-style: normal;
     font-weight: normal;
     font-size: 1.5em;
+    padding-left: 2em;
+    padding-right: 2em;
     color: #FFFFFF;
-    flex-basis: 40%;
-    height: 2.5em;
-}
+    height: 2.5em; 
+  }
 
 .button-stop:hover {
     background: $button-stop-hover;
 }
+
+.stat-button {
+    font-family: Roboto;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5em;
+    text-align: center;
+    height: 2.5em;
+    color: #FFFFFF;
+    margin-bottom: 1em;
+  }
 
 
 .timer {
@@ -204,22 +235,40 @@ body, html{
   border-left-color: salmon;
 }
 
+  /* For the generated lawn */
 .row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  line-height:30px;
+  flex: 1 0 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+//   min-height: 100px;
+//   max-height: 68%;
+  
+//   line-height:30px;
 }
 
+  /* For the generated lawn */
 .col {
   margin: 5px;
   color: white;
-  flex: 1 0 auto;
-  height:auto;
+  flex: 1 0 0;
   background-size: cover;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
+#lawnGrid {
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+}
+
+  /* For the generated lawn */
 .col:before {
   content:'';
   float:left;

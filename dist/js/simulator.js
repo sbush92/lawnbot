@@ -38,7 +38,7 @@ function makeGrid() {
   }
 
   // var width = document.getElementById('width').value;
-  var width = document.getElementById('height').value;
+  var width = document.getElementById('width').value;
   var height = document.getElementById('height').value;
 
   // Store the lawn state
