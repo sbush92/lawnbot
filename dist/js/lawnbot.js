@@ -50,7 +50,7 @@ function mowLawn() {
 }
 
 function returnToCharger(path, curRow, curCol) {
-  alert("*** Battery Level : " + batteryLevel + "% ***" + "\n*** Returning to the charging station ***");
+  //alert("*** Battery Level : " + batteryLevel + "% ***" + "\n*** Returning to the charging station ***");
   path.clear();
   var nextRow = 0;
   var nextCol = 0;
