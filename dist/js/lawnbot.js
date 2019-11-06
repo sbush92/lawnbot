@@ -20,10 +20,13 @@ var pausedNextCol;
 var batteryLevel = 100;
 
 function mowLawn() {
+	
   //set button to invisible
   var rows = document.getElementById("rows").value;
   var cells = document.getElementById("cells").value;
-  if(rows >= 1 && cells >= 1){
+  
+  if(rows >= 1 && cells >= 1) {
+	  
     document.getElementById("startButton").className = "hidden";
     document.getElementById("pauseButton").className = "button-lawn"
   }
@@ -50,6 +53,7 @@ function mowLawn() {
 }
 
 function returnToCharger(path, curRow, curCol) {
+	
   //alert("*** Battery Level : " + batteryLevel + "% ***" + "\n*** Returning to the charging station ***");
   path.clear();
   var nextRow = 0;
@@ -62,6 +66,10 @@ function returnToCharger(path, curRow, curCol) {
   iterator = path.values();
 
   var id = setInterval(() => {
+	  
+	console.log(new Date().getSeconds());
+	//updateTime(Date.now());
+	  
     locationString = iterator.next().value;
     if (!locationString) {
       clearInterval(id);
@@ -116,12 +124,15 @@ function returnToCharger(path, curRow, curCol) {
       return;
     }
 
-  }, 200);
+  },
+  200);
+  
   batteryLevel = 100;}
 
 function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
   if (nextCol >= columns) {
+	  
     nextCol = 0;
     nextRow++;
   }
@@ -129,14 +140,17 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   if (nextRow >= rows) return;
 
   while (visitedLocations.has(JSON.stringify({ row: nextRow, col: nextCol }))) {
+	  
     nextCol++;
 
     if (nextCol >= columns) {
+		
       nextCol = 0;
       nextRow++;
     }
 
-    if (nextRow >= rows) return;
+    if (nextRow >= rows)
+	  return;
   }
 
   path.clear();
@@ -147,22 +161,32 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   iterator = path.values();
 
   var id = setInterval(() => {
+	  
+	console.log(new Date().getSeconds());
+	//updateTime(Date.now());
+	  
     locationString = iterator.next().value;
     if (!locationString) {
+		
       clearInterval(id);
-      if(finished === true){
+	  
+      if(finished === true) {
+		  
         document.getElementById("pauseButton").className = "hidden";
         document.getElementById("restartButton").className = "button-lawn";
         returnToCharger(path, curRow, curCol);
         return;
       }
-      if(paused === true){
+      if(paused === true) {
+		  
         pausedRow = curRow; 
         pausedCol = curCol;
         pausedNextRow = nextRow;
         pausedNextCol = nextCol + 1;
         return;
-      }else{
+      }
+	  else {
+		  
         mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
         return;
       }
@@ -175,17 +199,18 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
         grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME ||
         grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === AWAY)
     ) {
-      if (
-        grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME
-      ) {
+		
+      if (grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML === HOME) {
+		  
         grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawnHTML.away.img;
-      } else {
+      }
+	  else {
+		  
         grid.rows[prevLocation.row].cells[prevLocation.col].innerHTML = lawnHTML.cutGrass.img;
       }
     }
 
     var location = JSON.parse(locationString);
-
  
     if (
       grid.rows[location.row].cells[location.col].innerHTML === GRASS ||
@@ -193,9 +218,13 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
       grid.rows[location.row].cells[location.col].innerHTML === HOME ||
       grid.rows[location.row].cells[location.col].innerHTML === AWAY
     ) {
+		
       if (grid.rows[location.row].cells[location.col].innerHTML === HOME) {
+		  
         grid.rows[location.row].cells[location.col].innerHTML = lawnHTML.home.img;
-      } else {
+      }
+	  else {
+		  
         grid.rows[location.row].cells[location.col].innerHTML = ROBOT; //will need to do something special for the charging station
       }
     }
@@ -210,17 +239,21 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
     var rows = document.getElementById("rows").value;
     var cells = document.getElementById("cells").value;
-    if (location.row === rows -1  && location.col === cells -1 ) {
+	
+    if (location.row === rows -1 && location.col === cells -1) {
+		
       finished = true;
       return;
     }
 
-  }, 200);
+  },
+  200);
 
 }
 
 // this still will have problems if the tile to find is not reachable
 function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
+	
   var wentLeft;
   var wentUp;
   var wentRight;
@@ -229,20 +262,26 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
   if (pathFound === true) return true;
 
   if (curRow === nextRow && curCol === nextCol) {
+	  
     if (
       grid.rows[curRow].cells[curCol].innerHTML !== CUT_GRASS &&
       grid.rows[curRow].cells[curCol].innerHTML !== GRASS &&
       grid.rows[curRow].cells[curCol].innerHTML !== ROBOT &&
       grid.rows[curRow].cells[curCol].innerHTML !== HOME
     ) {
+		
       // location is not grass, mark it visited
       //visitedLocations.push({row: curRow, col: curCol});
       visitedLocations.add(JSON.stringify({ row: curRow, col: curCol }));
-    } else {
+    }
+	else {
+		
       //path.push({row: curRow, col: curCol});
       path.add(JSON.stringify({ row: curRow, col: curCol }));
       batteryLevel = batteryLevel - 5;
+	  
       if (batteryLevel == 20) {
+		  
         returnToCharger(path, curRow, curCol);
       }
     }
@@ -260,6 +299,7 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
     grid.rows[curRow].cells[curCol].innerHTML !== ROBOT &&
     grid.rows[curRow].cells[curCol].innerHTML !== HOME
   ) {
+	  
     // location is not grass, mark it visited
     //visitedLocations.push({row: curRow, col: curCol});
     visitedLocations.add(JSON.stringify({ row: curRow, col: curCol }));
@@ -267,7 +307,8 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
   }
 
   //if (path.some(pair => pair.row === curRow && pair.col === curRow))
-  if (path.has(JSON.stringify({ row: curRow, col: curCol }))) return false;
+  if (path.has(JSON.stringify({ row: curRow, col: curCol })))
+	  return false;
 
   //path.push({row: curRow, col: curCol});
   path.add(JSON.stringify({ row: curRow, col: curCol }));
@@ -303,6 +344,7 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 	}*/
 
   if (!wentUp && curRow > nextRow) {
+	  
     pathFound = findPathRecurse(
       path,
       curRow - 1,
@@ -311,10 +353,12 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
       nextCol,
       pathFound
     );
+	
     wentUp = true;
   }
 
   if (!wentLeft && curCol > nextCol) {
+	  
     pathFound = findPathRecurse(
       path,
       curRow,
@@ -323,74 +367,94 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
       nextCol,
       pathFound
     );
+	
     wentLeft = true;
   }
 
   if (!wentRight && curCol < nextCol) {
-    pathFound = findPathRecurse(
-      path,
-      curRow,
-      curCol + 1,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow,
+		  curCol + 1,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+	
     wentRight = true;
   }
 
   if (!wentDown && curRow < nextRow) {
-    pathFound = findPathRecurse(
-      path,
-      curRow + 1,
-      curCol,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow + 1,
+		  curCol,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+	
     wentDown = true;
   }
 
-  if (!wentUp)
-    pathFound = findPathRecurse(
-      path,
-      curRow - 1,
-      curCol,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+  if (!wentUp) {
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow - 1,
+		  curCol,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+  }
 
-  if (!wentLeft)
-    pathFound = findPathRecurse(
-      path,
-      curRow,
-      curCol - 1,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+  if (!wentLeft) {
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow,
+		  curCol - 1,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+  }
 
-  if (!wentRight)
-    pathFound = findPathRecurse(
-      path,
-      curRow,
-      curCol + 1,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+  if (!wentRight) {
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow,
+		  curCol + 1,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+  }
 
-  if (!wentDown)
-    pathFound = findPathRecurse(
-      path,
-      curRow + 1,
-      curCol,
-      nextRow,
-      nextCol,
-      pathFound
-    );
+  if (!wentDown) {
+	  
+    pathFound =
+		findPathRecurse(
+		  path,
+		  curRow + 1,
+		  curCol,
+		  nextRow,
+		  nextCol,
+		  pathFound
+		);
+  }
 
   if (!pathFound) {
+	  
     //path.pop();
     path.delete(JSON.stringify({ row: curRow, col: curCol }));
     return false;
@@ -403,14 +467,14 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 }
 
 function pause(){
+	
   paused = true;
   document.getElementById("pauseButton").className = "hidden";
   document.getElementById("resumeButton").className = "button-lawn";
-
-
 }
 
 function resume(){
+	
   paused = false;
   document.getElementById("resumeButton").className = "hidden";
   document.getElementById("pauseButton").className = "button-lawn";
