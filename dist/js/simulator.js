@@ -1,8 +1,13 @@
-var lawnState = {
-  "width": 0,
-  "height": 0,
+var lawnStateDefault = {
+  "cols": 0,
+  "rows": 0,
   "tiles": []
-};
+}
+
+var lawnState = Object.create(lawnStateDefault);
+
+// Keeps track of the underlying model of the lawn
+var backingGrid = [[], []];
 
 function startSimulation() {
   var startTime = new Date();
@@ -30,7 +35,7 @@ function updateBattery(charge) {
   batterySpan.innerHTML = `${charge}%`;
 }
 
-function makeGrid() {
+function makeGrid(useBackingGrid=false) {
   var oldLawn = document.getElementById('lawnGrid');
   if (oldLawn != undefined) {
     // Previous lawn exists, clear it out
@@ -38,12 +43,12 @@ function makeGrid() {
   }
 
   // var width = document.getElementById('width').value;
-  var width = document.getElementById('width').value;
-  var height = document.getElementById('height').value;
+  var cols = document.getElementById('cols').value;
+  var rows = document.getElementById('rows').value;
 
   // Store the lawn state
-  lawnState.width = parseInt(width);
-  lawnState.height = parseInt(height);
+  lawnState.rows = parseInt(rows);
+  lawnState.cols = parseInt(cols);
 
   // Get the object representing the lawn area
   lawn = document.getElementById('lawn');
@@ -54,85 +59,180 @@ function makeGrid() {
 
   lawn.appendChild(lawnGrid);
 
-  var colArray = [];
-  var rowArray = [];
+  for (let row = 0; row < rows; row++) {
+    // Tell the array we have a new row
+    if (!useBackingGrid)
+      backingGrid[row] = [];
 
-  for (var row = 0; row < height; row++) {
-    rowArray.push(row);
-
-    var rowChild = document.createElement('div');
-    rowChild.setAttribute('class', 'row');
+    var currentRow = document.createElement('div');
+    currentRow.setAttribute('class', 'row');
 
     // Add the row to the lawn grid
-    lawnGrid.appendChild(rowChild);
+    lawnGrid.appendChild(currentRow);
 
-    // Keep track of the row in the row array
-    rowArray[row] = rowChild;
-
-    var colCount = 0;
-    var first = true; // Represents whether we are on the first tile or not
-
-    for (var col = 0; col < width; col++) {
-      colArray.push(colCount);
+    for (let col = 0; col < cols; col++) {
 
       // Create column element
       var lawnCell = document.createElement('div');
-      lawnCell.setAttribute('class', 'col');
+      lawnCell.setAttribute('class', 'col cell');
+      lawnCell.onclick = function() {
+        console.log(`Clicked Cell: ${col}, ${row + 1}`);   
+        changeTiles(this, row, col);   
+        console.log(`Attempting to do something here:`);
+        var testTile = document.getElementsByClassName('row')[row];
+        var another = testTile.getElementsByClassName('col')[col];
+        console.log(`Did it work?: ${another.style.backgroundImage}`);
 
-      // Add the column element to the row
-      colArray[colCount] = rowArray[row].appendChild(lawnCell);
+      };
 
-      if (first == true) {
-        // First time, add a default tile image
-        // colArray[colCount].innerHTML = lawnTiles.home.img;
-        colArray[colCount].style.backgroundImage = lawnTiles.home.bg;
-        first = false;
+      var currentCol = currentRow.appendChild(lawnCell);
+
+      // Load an image into the cell
+      if (useBackingGrid) {
+        currentCol.style.backgroundImage = getTileUrl(backingGrid[row][col]);
+      } else if (row == 0 && col == 0) {
+        currentCol.style.backgroundImage = lawnTiles.home.bg;
+        backingGrid[row][col] = {name: lawnTiles.home.id, row: row, col: col};
       } else {
-        // colArray[colCount].innerHTML = lawnTiles.grass.img
-        colArray[colCount].style.backgroundImage=lawnTiles.grass.bg;
+        currentCol.style.backgroundImage=lawnTiles.grass.bg;
+        backingGrid[row][col] = {name: lawnTiles.grass.id, row: row, col: col};
       }
-
-      colCount++;
     }
+    lawnState.tiles = backingGrid.flat();
+    console.log(`The current grid: ${JSON.stringify(lawnState)}`);
   }
-  setClickEvents();
+  
   first = true;
 }
 
-function setClickEvents() {
+// Cycles through available tyles
+// Takes existing table node as parameter
+// Returns nothing
+function changeTiles(tile, row, col) {;
+  switch (tile.style.backgroundImage) {
+    case lawnTiles.grass.bg:
+      tile.style.backgroundImage = lawnTiles.tree.bg;
+      backingGrid[row][col].name = lawnTiles.tree.id;      
+      break;
+    case lawnTiles.cutGrass.bg:
+      tile.style.backgroundImage = lawnTiles.grass.bg;
+      backingGrid[row][col].name = lawnTiles.grass.id;
+      break;
+    case lawnTiles.tree.bg:
+      tile.style.backgroundImage = lawnTiles.rock.bg;
+      backingGrid[row][col].name = lawnTiles.rock.id;
+      break;
+    case lawnTiles.rock.bg:
+      tile.style.backgroundImage = lawnTiles.dirt.bg;
+      backingGrid[row][col].name = lawnTiles.dirt.id;
+      break;
+    case lawnTiles.dirt.bg:
+      tile.style.backgroundImage = lawnTiles.cutGrass.bg;
+      backingGrid[row][col].name = lawnTiles.cutGrass.id;
+      break;
+  }
+}
 
+function getTileUrl(tile) {
+  switch(tile.name) {
+    case 'rock': return lawnTiles.rock.bg;
+    case 'tree': return lawnTiles.tree.bg;
+    case 'dirt': return lawnTiles.tree.bg;
+    case 'cutGrass': return lawnTiles.cutGrass.bg;
+    case 'grass': return lawnTiles.grass.bg;
+    case 'home': return lawnTiles.home.bg;
+    case 'away': return lawnTiles.away.bg;
+  }
+}
+
+function saveLawn() {
+  var json = JSON.stringify(lawnState)
+  try {
+    var blob = new Blob([json], {type:"utf-8"});
+    saveAs(blob, "lawn.json");
+  } catch(e) {
+    window.open(`data:${json},${encodeURIComponent("utf-8")}`, '_blank', '');
+  }
+}
+
+function loadLawn() {
+  var lawnStorage = localStorage.getItem("lawn");
+  if (lawnStorage != null) {
+    var lawnStateObject = JSON.parse(lawnStorage);
+    document.getElementById('cols').value = lawnStateObject.cols;
+    document.getElementById('rows').value = lawnStateObject.rows;
+
+    // Reset the backing grid
+    backingGrid = [[]];
+
+    lawnStateObject.tiles.forEach( tile => {
+      var row = tile.row;
+      var col = tile.col;
+      if (backingGrid[row] == null) backingGrid[row] = [];
+      backingGrid[row][col] = tile;
+    })
+
+    makeGrid(true);
+  }
+}
+
+function loadLawnFile() {
+  document.getElementById("file").click();
+
+  $.getJSON("/dist/json/lawn.json", function(json){
+  });
+
+}
+
+function fileListener() {
+  var selectedFile =  document.getElementById("file");
+  selectedFile.addEventListener('change', function() {
+    console.log("the thing happened");
+    const reader = new FileReader()
+    reader.onload = function (){
+      localStorage.setItem('lawn', reader.result);
+      loadLawn();
+    }
+    reader.readAsText(selectedFile.files[0]);
+  }, false)
+}
+
+function clearLawn() {
+  document.getElementById('cols').value = 0;
+  document.getElementById('rows').value = 0;
+  lawnState = Object.create(lawnStateDefault);
+  localStorage.removeItem('lawn');
+  makeGrid();
 }
 
 // This is an object to hold the html tags for the images.
 var lawnTiles = {
   grass: {
     id: "grass",
-    img: "<img src='assets/img/grass.png'></img>",
-    bg: "url('assets/img/grass.png')"
+    bg: 'url("assets/img/grass.png")'
   },
   dirt: {
     id: "dirt",
-    img: "<img src='assets/img/dirt.png'></img>"
+    bg: 'url("assets/img/dirt.png")'
   },
   cutGrass: {
     id: "cutGrass",
-    img: "<img src='assets/img/cut-grass.png'></img>"
+    bg: 'url("assets/img/cut-grass.png")'
   },
   rock: {
     id: "rock",
-    img: "<img src='assets/img/rock.png'></img>"
+    bg: 'url("assets/img/rock.png")'
   },
   tree: {
     id: "tree",
-    img: "<img src='assets/img/tree.png'></img>"
+    bg: 'url("assets/img/tree.png")'
   },
   home: {
     id: "home",
-    img: "<img src='assets/img/lawnbot-home.png'></img>",
-    bg: "url('assets/img/lawnbot-home.png')"
+    bg: 'url("assets/img/lawnbot-home.png")'
   },
   away: {
     id: "away",
-    img: "<img src='assets/img/home.png'></img>"
+    bg: 'url("assets/img/home.png")'
   }
 };
