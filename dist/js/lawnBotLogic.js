@@ -22,9 +22,12 @@ var batteryLevel = 100;
 
 function mowLawn() {
 
+  timer = window.setInterval(function() {
+    updateTime();
+  }, 1000)
+
   batteryLevelProxy = new Proxy({}, {
     set: function(target, key, value) {
-      console.log(`Battery set to ${value}`);
       target[key] = value;
       updateBattery(value);
       return true;
@@ -35,44 +38,31 @@ function mowLawn() {
 
   progressProxy = new Proxy({}, {
     set: function(target, key, value) {
-      console.log(`Progress set to ${value}`);
       target[key] = value;
-      updateProgress(value);
+      if (key === "progress")
+        updateProgress(value, target['total']);
       return true;
     }
   });
-
-  progressProxy.progress = 0;
-
-  timerProxy = new Proxy({}, {
-    set: function(target, key, value) {
-      console.log(`Timer set to ${value}`)
-      target[key] = value;
-      updateTime(value);
-      return true;
-    }
-  })
-
-  timerProxy.time = 0;
-  
 	
   //set button to invisible
   rows = document.getElementById('rows').value;
   columns = document.getElementById('cols').value;
+
+  progressProxy.total = (rows * columns) - 1; // Minus one for the base station
   
-  if(rows >= 1 && columns >= 1) {
-	  
+  if (rows >= 1 && columns >= 1) {
     // document.getElementById("startButton").className = "hidden";
     // document.getElementById("pauseButton").className = "button-lawn"
   }
 
   visitedLocations = new Set();
   visitedLocations.add(JSON.stringify({ row: 0, col: 0 }));
+  progressProxy.progress = 0;
 
   //any changes needed here?
   grid = document.getElementById('lawnGrid');
 
-  //path = [];
   path = new Set();
 
   var curRow = 0;
@@ -85,9 +75,7 @@ function mowLawn() {
 }
 
 function mowToNextTile(curRow, curCol, nextRow, nextCol) {
-
   if (nextCol >= columns) {
-	  
     nextCol = 0;
     nextRow++;
   }
@@ -95,11 +83,9 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   if (nextRow >= rows) return;
 
   while (visitedLocations.has(JSON.stringify({ row: nextRow, col: nextCol }))) {
-	  
     nextCol++;
 
     if (nextCol >= columns) {
-		
       nextCol = 0;
       nextRow++;
     }
@@ -109,6 +95,7 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   }
 
   path.clear();
+
   findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
 
   prevLocation = null;
@@ -116,20 +103,16 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   iterator = path.values();
 
   var id = setInterval(() => {
-	  
-	console.log(new Date().getSeconds());
-	//updateTime(Date.now());
-	  
     locationString = iterator.next().value;
     if (!locationString) {
 		
       clearInterval(id);
 	  
       if (finished === true) {
-		  
         // document.getElementById("pauseButton").className = "hidden";
         // document.getElementById("restartButton").className = "button-lawn";
         returnToCharger(path, curRow, curCol);
+        
         return;
       }
 
@@ -170,8 +153,9 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
         locCell.style.backgroundImage = ROBOT //will need to do something special for the charging station
       }
     }
-
+    
     visitedLocations.add(JSON.stringify(location));
+    progressProxy.progress = visitedLocations.size -1;
 
     curRow = location.row;
     curCol = location.col;
@@ -185,7 +169,6 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
       finished = true;
       return;
     }
-
   },
   200);
 }
@@ -205,13 +188,12 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
 
   var curBgImg = getCellBgImg(curRow, curCol);
   if (curRow === nextRow && curCol === nextCol) {
-    
     if (curBgImg !== CUT_GRASS && curBgImg !== GRASS && curBgImg !== ROBOT && curBgImg !== HOME) {
       // location is not grass, mark it visited
       visitedLocations.add(JSON.stringify({ row: curRow, col: curCol }));
+      progressProxy.progress = visitedLocations.size - 1;
     } else {
       path.add(JSON.stringify({ row: curRow, col: curCol }));
-      // batteryLevelProxy.drain(5);
       batteryLevelProxy.level -= 5;
 	  
       if (batteryLevel == 20) {
@@ -226,6 +208,7 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
   if (curBgImg !== CUT_GRASS && curBgImg !== GRASS && curBgImg !== ROBOT && curBgImg !== HOME) {
     // location is not grass, mark it visited
     visitedLocations.add(JSON.stringify({ row: curRow, col: curCol }));
+    progressProxy.progress = visitedLocations.size - 1;
     return false;
   }
 
@@ -361,10 +344,6 @@ function returnToCharger(path, curRow, curCol) {
   iterator = path.values();
 
   var id = setInterval(() => {
-	  
-	console.log(new Date().getSeconds());
-	//updateTime(Date.now());
-	  
     locationString = iterator.next().value;
     if (!locationString) {
       clearInterval(id);
@@ -397,6 +376,7 @@ function returnToCharger(path, curRow, curCol) {
     }
 
     visitedLocations.add(JSON.stringify(location));
+    progressProxy.progress = visitedLocations.size - 1;
 
     curRow = location.row;
     curCol = location.col;
@@ -407,13 +387,14 @@ function returnToCharger(path, curRow, curCol) {
     var cells = document.getElementById("cols").value;
     if (location.row === rows -1  && location.col === cells -1 ) {
       finished = true;
+      window.clearInterval(timer);
       return;
     }
-
   },
   200);
   
-  batteryLevel = 100;}
+  batteryLevel = 100;
+}
 
 function getCellBgImg(row, col) {
   var lawnRow = document.getElementsByClassName('row')[row];

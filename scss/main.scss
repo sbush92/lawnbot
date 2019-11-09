@@ -10,6 +10,7 @@ $button-start-normal: #3B7302;
 $button-start-hover: #4D9900;
 $button-stop-normal: #730202;
 $button-stop-hover: #990000;
+$button-thing-hover: rgba(200, 200, 200, 0.5);
 
 
 body, html{
@@ -99,6 +100,7 @@ body, html{
 .lawn-settings {
     display: flex;
     flex-direction: row;
+    justify-content: baseline;
 }
 
 .lawn-settings p{
@@ -191,6 +193,26 @@ body, html{
     margin-bottom: 1em;
   }
 
+  .file-button-thing {
+    font-family: Roboto;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 1em;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1em;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    color: #FFFFFF;
+    margin-left: 1em;
+  }
+
+  .file-button-thing:hover {
+    background: $button-thing-hover;
+}
+
 
 .timer {
     font-family: Roboto;
@@ -211,7 +233,11 @@ body, html{
 .simple-form {
     display: flex;
     // overflow-y: scroll;
-    padding-bottom: 1.25rem;
+    // padding-bottom: 1.25rem;
+    // align-items: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    align-content: center;
 }
 
 .simple-form input {
@@ -241,7 +267,7 @@ body, html{
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  flex: 1 0 50px;
+  flex: 1 0 0;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -253,7 +279,7 @@ body, html{
 .col {
   margin: 5px;
   color: white;
-  flex: 1 0 50px;
+  flex: 1 0 0;
   background-size: cover;
   min-height: 0;
   min-width: 0;

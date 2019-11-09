@@ -4,6 +4,14 @@ var lawnStateDefault = {
   "tiles": []
 }
 
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
+}
+
+var timeSeconds = 0;
+
 var lawnState = Object.create(lawnStateDefault);
 
 // Keeps track of the underlying model of the lawn
@@ -20,14 +28,18 @@ function startSimulation() {
 
 }
 
-function updateTime(time) {
+function updateTime() {
+  timeSeconds++;
+  // var hours = 0;
+  var minutes = Math.floor(timeSeconds / 60);
+  var seconds = timeSeconds % 60;
   var timeSpan = document.getElementById('time');
-  timeSpan.innerHTML = time;
+  timeSpan.innerHTML = `00:${minutes.pad(2)}:${seconds.pad(2)}`;
 }
 
-function updateProgress(progress) {
+function updateProgress(progress, total) {
   var progressSpan = document.getElementById('progress');
-  progressSpan.innerHTML = `${progress}%`;
+  progressSpan.innerHTML = `${Math.floor((progress / total) * 100)}%`;
 }
 
 function updateBattery(charge) {
@@ -76,12 +88,9 @@ function makeGrid(useBackingGrid=false) {
       var lawnCell = document.createElement('div');
       lawnCell.setAttribute('class', 'col cell');
       lawnCell.onclick = function() {
-        console.log(`Clicked Cell: ${col}, ${row + 1}`);   
         changeTiles(this, row, col);   
-        console.log(`Attempting to do something here:`);
         var testTile = document.getElementsByClassName('row')[row];
         var another = testTile.getElementsByClassName('col')[col];
-        console.log(`Did it work?: ${another.style.backgroundImage}`);
 
       };
 
@@ -99,7 +108,6 @@ function makeGrid(useBackingGrid=false) {
       }
     }
     lawnState.tiles = backingGrid.flat();
-    console.log(`The current grid: ${JSON.stringify(lawnState)}`);
   }
   
   first = true;
@@ -187,7 +195,6 @@ function loadLawnFile() {
 function fileListener() {
   var selectedFile =  document.getElementById("file");
   selectedFile.addEventListener('change', function() {
-    console.log("the thing happened");
     const reader = new FileReader()
     reader.onload = function (){
       localStorage.setItem('lawn', reader.result);

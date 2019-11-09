@@ -74,7 +74,8 @@ body, html {
 
 .lawn-settings {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  justify-content: baseline; }
 
 .lawn-settings p {
   color: #eee; }
@@ -156,6 +157,24 @@ body, html {
   color: #FFFFFF;
   margin-bottom: 1em; }
 
+.file-button-thing {
+  font-family: Roboto;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 1em;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-left: 1em; }
+
+.file-button-thing:hover {
+  background: rgba(200, 200, 200, 0.5); }
+
 .timer {
   font-family: Roboto;
   border-radius: 8px;
@@ -171,7 +190,9 @@ body, html {
 
 .simple-form {
   display: flex;
-  padding-bottom: 1.25rem; }
+  padding-top: 1em;
+  padding-bottom: 1em;
+  align-content: center; }
 
 .simple-form input {
   margin: 0 .25rem;
@@ -196,7 +217,7 @@ body, html {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  flex: 1 0 50px;
+  flex: 1 0 0;
   min-width: 0;
   min-height: 0;
   overflow: hidden; }
@@ -205,7 +226,7 @@ body, html {
 .col {
   margin: 5px;
   color: white;
-  flex: 1 0 50px;
+  flex: 1 0 0;
   background-size: cover;
   min-height: 0;
   min-width: 0;
