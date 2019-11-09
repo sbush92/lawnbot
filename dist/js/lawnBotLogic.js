@@ -7,7 +7,7 @@ const AWAY = 'url("assets/img/home.png")';
 
 var visitedLocations;
 var path;
-var paused = false;
+paused = false; // Global - used in simulator.js
 var finished = false;
 
 var prevLocation;
@@ -22,6 +22,9 @@ var batteryLevel = 100;
 
 function mowLawn() {
   finished = false;
+
+  document.getElementsByClassName('button-start')[0].disabled = true;
+  document.getElementsByClassName('button-stop')[0].disabled = false;
 
   timer = window.setInterval(function() {
     updateTime();
@@ -118,12 +121,14 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
       }
 
       if (paused === true) {
+        console.log('Paused in lawnbot');
         pausedRow = curRow; 
         pausedCol = curCol;
         pausedNextRow = nextRow;
         pausedNextCol = nextCol + 1;
         return;
       } else {
+        console.log('Unpaused in lawnbot');
         mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
         return;
       }
@@ -388,6 +393,7 @@ function returnToCharger(path, curRow, curCol) {
     var cells = document.getElementById("cols").value;
     if (location.row === rows -1  && location.col === cells -1 ) {
       finished = true;
+      resetButtons();
       window.clearInterval(timer);
       return;
     }

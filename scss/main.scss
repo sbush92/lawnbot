@@ -6,238 +6,278 @@ $primary-color: #444;
 /* Button Colors */
 $button-lawn-normal: #92BF4E;
 $button-lawn-hover: #B5D99C;
+
 $button-start-normal: #3B7302;
-$button-start-hover: #4D9900;
+$button-start-hover: rgba(77, 153, 0, 1);
+$button-start-disabled: rgba(40, 79, 0, 0.5);
+
 $button-stop-normal: #730202;
 $button-stop-hover: #990000;
+$button-stop-disabled: rgba(106, 0, 0, 0.5);
+
+$button-resume-normal: rgb(230, 224, 44);
+$button-resume-hover: rgb(255, 251, 0);
+$button-resume-text: rgb(0, 0, 0);
+
 $button-thing-hover: rgba(200, 200, 200, 0.5);
+$disabled-text: rgba(162, 162, 162, 0.5);
 
 
 body, html{
-    margin: 0;
-    height: 100%;
+  margin: 0;
+  height: 100%;
 }
 
 .bg-index {
-    background: url("../assets/img/lawn-landing.jpg") no-repeat center center fixed;
-    height: 100%;
-    background-size: cover;
+  background: url("../assets/img/lawn-landing.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
 }
 
 .bg-simulator {
-    background: url("../assets/img/simulator-bg.jpg") no-repeat center center fixed;
-    height: 100%;
-    background-size: cover;
+  background: url("../assets/img/simulator-bg.jpg") no-repeat center center fixed;
+  height: 100%;
+  background-size: cover;
 }
 
 .flex-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .dark-overlay {
-    background-color: rgba(0, 0, 0, 0.54);
-    height: 100%;
+  background-color: rgba(0, 0, 0, 0.54);
+  height: 100%;
 }
 
 .menu-background {
-    border-radius: 44px;
-    background: rgba(255, 255, 255, 0.09);
-    width: 30em;
-    height: 30em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+  border-radius: 44px;
+  background: rgba(255, 255, 255, 0.09);
+  width: 30em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .button-lawn {
-    border-radius: 8px;
-    background: $button-lawn-normal;
-    border: none;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    color: #1B4001;
-    width: 70%;
-    height: 2.75em;
+  border-radius: 8px;
+  background: $button-lawn-normal;
+  border: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  color: #1B4001;
+  width: 70%;
+  height: 2.75em;
 }
 
 .button-lawn:hover {
-    background: $button-lawn-hover;
+  background: $button-lawn-hover;
 }
 
 .hidden{
-    display: none;
+  display: none;
 }
 
 
 #title {
-    font-family: Titillium Web;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 5em;
-    margin: 0 auto;
-    color: #B5D99C;
+  font-family: Titillium Web;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 5em;
+  margin: 0 auto;
+  color: #B5D99C;
 }
 
 .lawn-parent-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .top-row {
-    display: flex;
-    flex-direction: row;
-    /* justify-content: start; */
-    width: 90%; 
-  }
+  display: flex;
+  flex-direction: row;
+  /* justify-content: start; */
+  width: 90%; 
+}
 
 .lawn-settings {
-    display: flex;
-    flex-direction: row;
-    justify-content: baseline;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
 }
 
 .lawn-settings p{
-    color: #eee;
+  color: #eee;
 }
 
 .lawn-and-stats {
-    display: flex;
-    flex-direction: row;
-    height: 80%;
-    width: 90%;
-    margin-top: 1em;
-  }
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+  width: 90%;
+  margin-top: 1em;
+}
 
 .lawn {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 100%;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.09);  
-  }
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.09);  
+}
 
-  .stats {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    height: 100%;
-    /* background: hotpink; */
-    margin-left: 1em;
-  }
+.stats {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 100%;
+  /* background: hotpink; */
+  margin-left: 1em;
+}
 
-  .bottom-row {
-    display: flex;
-    flex-direction: row;
-    width: 90%;
-    height: 10%;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em; 
-  }
+.bottom-row {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  height: 10%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em; 
+}
 
-  .button-start {
-    border-radius: 8px;
-    background: $button-start-normal;
-    border: none;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    color: #FFFFFF;
-    padding-left: 2em;
-    padding-right: 2em;
-    height: 2.5em; 
-    margin-right: 1em;
-  }
+.button-start {
+  border-radius: 8px;
+  background: $button-start-normal;
+  border: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  color: #FFFFFF;
+  padding-left: 2em;
+  padding-right: 2em;
+  height: 2.5em; 
+  margin-right: 1em;
+  width: 12.8em;
+}
 
 .button-start:hover {
-    background: $button-start-hover;
+  background: $button-start-hover;
+}
+
+.button-start:disabled {
+  background: $button-start-disabled;
+  color: $disabled-text;
 }
 
 .button-stop {
-    border-radius: 8px;
-    background: $button-stop-normal;
-    border: none;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    padding-left: 2em;
-    padding-right: 2em;
-    color: #FFFFFF;
-    height: 2.5em; 
-  }
+  content: "Stop";
+  border-radius: 8px;
+  background: $button-stop-normal;
+  border: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  color: #FFFFFF;
+  height: 2.5em;
+  width: 12.8em; 
+}
 
 .button-stop:hover {
-    background: $button-stop-hover;
+  background: $button-stop-hover;
+}
+
+.button-stop:disabled {
+  background: $button-stop-disabled;
+  color: $disabled-text;
+}
+
+.button-resume {
+  border-radius: 8px;
+  background: $button-resume-normal;
+  border: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  color: $button-resume-text;
+  height: 2.5em; 
+  width: 12.8em;
+}
+
+.button-resume:hover {
+  background: $button-resume-hover;
 }
 
 .stat-button {
-    font-family: Roboto;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    text-align: center;
-    height: 2.5em;
-    color: #FFFFFF;
-    margin-bottom: 1em;
-  }
-
-  .file-button-thing {
-    font-family: Roboto;
-    border-radius: 2px;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    padding: 1em;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1em;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
-    color: #FFFFFF;
-    margin-left: 1em;
-  }
-
-  .file-button-thing:hover {
-    background: $button-thing-hover;
+  font-family: Roboto;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  text-align: center;
+  height: 2.5em;
+  color: #FFFFFF;
+  margin-bottom: 1em;
 }
 
+.file-button-thing {
+  font-family: Roboto;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 1em;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-left: 1em;
+}
+
+.file-button-thing:hover {
+  background: $button-thing-hover;
+}
 
 .timer {
-    font-family: Roboto;
-    border-radius: 8px;
-    background: rgba($color: #000000, $alpha: 
-    0.5);
-    border: none;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    text-align: center;
-    height: 2.5em;
-    color: #FFFFFF;
-    flex-grow: 4;
+  font-family: Roboto;
+  border-radius: 8px;
+  background: rgba($color: #000000, $alpha: 0.5);
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  text-align: center;
+  height: 2.5em;
+  color: #FFFFFF;
+  flex-grow: 4;
 }
 
 
 .simple-form {
-    display: flex;
-    // overflow-y: scroll;
-    // padding-bottom: 1.25rem;
-    // align-items: center;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    align-content: center;
+  display: flex;
+  // overflow-y: scroll;
+  // padding-bottom: 1.25rem;
+  // align-items: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  align-content: center;
 }
 
 .simple-form input {

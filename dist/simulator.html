@@ -23,12 +23,12 @@
                 <div class="lawn-settings">
                     <p>Lawn dimensions:</p>
                     <form action="#" class="simple-form">
-                        <input type="number" name="cols" min="1" max="25" id="cols" onchange="makeGrid()">
-                        <input type="number" name="rows" min="1" max="25" id="rows" onchange="makeGrid()">
+                        <input type="number" name="cols" min="1" max="25" id="cols" value=10 onchange="makeGrid()">
+                        <input type="number" name="rows" min="1" max="25" id="rows" value=10 onchange="makeGrid()">
                     </form>
                     <button class="file-button-thing" onclick="saveLawn()">Save</button>
                     <button class="file-button-thing" onclick="loadLawnFile()">Load</button>
-                    <button class="file-button-thing" onclick="clearLawn()">Clear</button>
+                    <button class="file-button-thing" onclick="resetLawn()">Reset</button>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
 
             <div class="bottom-row">
                 <button class="button-start" onclick="mowLawn()">Start Simulation</button>
-                <button class="button-stop" onclick="loadFile()">Stop Simulation</button>              
+                <button class="button-stop" onclick="stop()">Stop Simulation</button>              
             </div>
         </div>
     </div>
@@ -59,5 +59,6 @@
 
 
 <script>fileListener()</script>
+<script>makeGrid()</script> <!-- makes the initial 10x10 grid -->
 
 </html>

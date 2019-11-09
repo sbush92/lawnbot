@@ -25,7 +25,6 @@ function startSimulation() {
   updateBattery(50);
 
   // Start the algorithm
-
 }
 
 function updateTime() {
@@ -57,6 +56,16 @@ function makeGrid(useBackingGrid=false) {
   // var width = document.getElementById('width').value;
   var cols = document.getElementById('cols').value;
   var rows = document.getElementById('rows').value;
+
+  if (cols == 0 || rows == 0) {
+    // Can't make a grid from nothing; disable start/stop button
+    document.getElementsByClassName('button-start')[0].disabled = true;
+    document.getElementsByClassName('button-stop')[0].disabled = true;
+  } else {
+    // Enable the start button, but disable the stop button
+    document.getElementsByClassName('button-start')[0].disabled = false;
+    document.getElementsByClassName('button-stop')[0].disabled = true;
+  }
 
   // Store the lawn state
   lawnState.rows = parseInt(rows);
@@ -205,11 +214,46 @@ function fileListener() {
 }
 
 function clearLawn() {
-  document.getElementById('cols').value = 0;
-  document.getElementById('rows').value = 0;
+  document.getElementById('cols').value = 10;
+  document.getElementById('rows').value = 10;
   lawnState = Object.create(lawnStateDefault);
   localStorage.removeItem('lawn');
   makeGrid();
+}
+
+function stop(){
+  console.log('Stop');
+  paused = true;
+
+  // Change stop button to resume and change what it does when clicked
+  var resumeButton = document.getElementsByClassName('button-stop')[0]
+  resumeButton.className = 'button-resume';
+  resumeButton.setAttribute('onclick', 'resume()');
+  resumeButton.innerHTML = 'Resume Simulation';
+  // document.getElementById("resumeButton").className = "button-lawn";
+}
+
+function resume() {
+  console.log('Resume');
+  paused = false;
+
+  // Change the resume button back to stop and make it do what it used to when clicked
+  var stopButton = document.getElementsByClassName('button-resume')[0]
+  stopButton.className = 'button-stop';
+  stopButton.setAttribute('onclick', 'stop()');
+  stopButton.innerHTML = 'Stop Simulation';
+
+  mowToNextTile(pausedRow, pausedCol, pausedNextRow, pausedNextCol);
+  // document.getElementById("resumeButton").className = "button-lawn";
+}
+
+function restart() {
+
+}
+
+function resetButtons() {
+  document.getElementsByClassName('button-start')[0].disabled = false;
+  document.getElementsByClassName('button-stop')[0].disabled = true;
 }
 
 // This is an object to hold the html tags for the images.
