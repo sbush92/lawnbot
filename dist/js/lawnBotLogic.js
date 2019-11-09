@@ -376,6 +376,7 @@ function returnToCharger(path, curRow, curCol) {
 
     if (bgImg === GRASS ||bgImg === CUT_GRASS || bgImg === HOME || bgImg === AWAY) {
       if (bgImg === HOME || bgImg === AWAY) {
+        batteryLevelProxy.level = 100;
         locCell.style.backgroundImage = lawnTiles.home.bg;
       } else {
         locCell.style.backgroundImage = ROBOT 
@@ -398,8 +399,6 @@ function returnToCharger(path, curRow, curCol) {
     }
   },
   200);
-  
-  batteryLevelProxy.level = 100;
 }
 
 function getCellBgImg(row, col) {
