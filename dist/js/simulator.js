@@ -213,7 +213,7 @@ function fileListener() {
   }, false)
 }
 
-function clearLawn() {
+function resetLawn() {
   document.getElementById('cols').value = 10;
   document.getElementById('rows').value = 10;
   lawnState = Object.create(lawnStateDefault);
@@ -230,6 +230,7 @@ function stop(){
   resumeButton.className = 'button-resume';
   resumeButton.setAttribute('onclick', 'resume()');
   resumeButton.innerHTML = 'Resume Simulation';
+  window.clearInterval(timer);
   // document.getElementById("resumeButton").className = "button-lawn";
 }
 
@@ -244,6 +245,10 @@ function resume() {
   stopButton.innerHTML = 'Stop Simulation';
 
   mowToNextTile(pausedRow, pausedCol, pausedNextRow, pausedNextCol);
+
+  timer = window.setInterval(function() {
+    updateTime();
+  }, 1000)
   // document.getElementById("resumeButton").className = "button-lawn";
 }
 

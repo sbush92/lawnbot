@@ -126,6 +126,7 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
         pausedCol = curCol;
         pausedNextRow = nextRow;
         pausedNextCol = nextCol + 1;
+        window.clearInterval(timer);
         return;
       } else {
         console.log('Unpaused in lawnbot');
