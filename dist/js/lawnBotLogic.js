@@ -21,6 +21,7 @@ var batteryLevel = 100;
 
 
 function mowLawn() {
+  finished = false;
 
   timer = window.setInterval(function() {
     updateTime();
@@ -197,7 +198,6 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
       batteryLevelProxy.level -= 5;
 	  
       if (batteryLevelProxy.level == 20) {
-        console.log('Battery has hit 20%');
         returnToCharger(path, curRow, curCol);
       }
     }
@@ -345,16 +345,13 @@ function returnToCharger(path, curRow, curCol) {
   iterator = path.values();
 
   var id = setInterval(() => {
-    locationString = iterator.next().value;
-    console.log(`Location string: ${locationString}`);
-    if (locationString != null) {
+    locationString = iterator.next().value
+    if (locationString == null) {
       clearInterval(id);
       if (finished === true){
         return;
-      }
-    } else {
-      return;
-    }
+      } else return;
+    } 
     if (prevLocation) {
       var bgImg = getCellBgImg(prevLocation.row, prevLocation.col);
       var prevCell = getCell(prevLocation.row, prevLocation.col);
