@@ -121,15 +121,12 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
       }
 
       if (paused === true) {
-        console.log('Paused in lawnbot');
         pausedRow = curRow; 
         pausedCol = curCol;
         pausedNextRow = nextRow;
         pausedNextCol = nextCol + 1;
-        window.clearInterval(timer);
         return;
       } else {
-        console.log('Unpaused in lawnbot');
         mowToNextTile(curRow, curCol, nextRow, nextCol + 1);
         return;
       }
@@ -354,7 +351,10 @@ function returnToCharger(path, curRow, curCol) {
     locationString = iterator.next().value
     if (locationString == null) {
       clearInterval(id);
-      if (finished === true){
+      if (finished === true) {
+        // Bot is actually at the home base here
+        window.clearInterval(timer);
+        resetButtons();
         return;
       } else return;
     } 
@@ -394,8 +394,6 @@ function returnToCharger(path, curRow, curCol) {
     var cells = document.getElementById("cols").value;
     if (location.row === rows -1  && location.col === cells -1 ) {
       finished = true;
-      resetButtons();
-      window.clearInterval(timer);
       return;
     }
   },
