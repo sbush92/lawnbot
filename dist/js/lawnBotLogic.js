@@ -343,6 +343,8 @@ function returnToCharger(path, curRow, curCol) {
   findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
   path.add(JSON.stringify({ row: 0, col: 0 }));
 
+  getCell(prevLocation.row, prevLocation.col).style.backgroundImage = lawnTiles.cutGrass.bg;
+
   prevLocation = null;
 
   iterator = path.values();
@@ -378,6 +380,8 @@ function returnToCharger(path, curRow, curCol) {
       if (bgImg === HOME || bgImg === AWAY) {
         batteryLevelProxy.level = 100;
         locCell.style.backgroundImage = lawnTiles.home.bg;
+      } else if (bgImg === GRASS) {
+        locCell.style.backgroundImage = lawnTiles.cutGrass.bg;
       } else {
         locCell.style.backgroundImage = ROBOT 
       }
@@ -393,9 +397,14 @@ function returnToCharger(path, curRow, curCol) {
 
     var rows = document.getElementById("rows").value;
     var cells = document.getElementById("cols").value;
-    if (location.row === rows -1  && location.col === cells -1 ) {
+
+    if (location.row === rows - 1  && location.col === cells - 1 ) {
       finished = true;
       return;
+    }
+
+    if (location.row === 0 && location.col === 0) {
+      getCell(location.row, location.col).style.backgroundImage = lawnTiles.home.bg;
     }
   },
   200);
