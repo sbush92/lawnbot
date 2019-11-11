@@ -24,25 +24,31 @@ function mowLawn() {
   //set button to invisible
   var rows = document.getElementById("rows").value;
   var cells = document.getElementById("cells").value;
-  if(rows >= 1 && cells >= 1) {
-    document.getElementById("startButton").className = "hidden";
-    document.getElementById("pauseButton").className = "button-lawn";
-
-  }
   
+  if(rows >= 1 && cells >= 1) {
+	  
+    document.getElementById("startButton").className = "hidden";
+    document.getElementById("pauseButton").className = "button-lawn"
+  }
+
   //visitedLocations = [{row: 0, col: 0}];
   visitedLocations = new Set();
   visitedLocations.add(JSON.stringify({ row: 0, col: 0 }));
+
   //any changes needed here?
   grid = document.getElementById("lanwGrid");
   rows = document.getElementById("rows").value;
   columns = document.getElementById("cells").value;
+
   //path = [];
   path = new Set();
+
   var curRow = 0;
   var curCol = 0;
+
   var nextRow = 0;
-  var nextCol = 1; 
+  var nextCol = 1;
+
   mowToNextTile(curRow, curCol, nextRow, nextCol);
 }
 
@@ -122,8 +128,9 @@ function returnToCharger(path, curRow, curCol) {
     batteryLevel = 100;
 }
 
+
 function mowToNextTile(curRow, curCol, nextRow, nextCol) {
-  
+
   if (nextCol >= columns) {
 	  
     nextCol = 0;
@@ -133,6 +140,7 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
   if (nextRow >= rows) return;
 
   while (visitedLocations.has(JSON.stringify({ row: nextRow, col: nextCol }))) {
+	  
     nextCol++;
 
     if (nextCol >= columns) {
@@ -147,6 +155,7 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
   path.clear();
   findPathRecurse(path, curRow, curCol, nextRow, nextCol, false);
+
   prevLocation = null;
 
   iterator = path.values();
@@ -222,18 +231,21 @@ function mowToNextTile(curRow, curCol, nextRow, nextCol) {
 
     //visitedLocations.push(location);
     visitedLocations.add(JSON.stringify(location));
+
     curRow = location.row;
     curCol = location.col;
 
     prevLocation = location;
-   
+
     var rows = document.getElementById("rows").value;
     var cells = document.getElementById("cells").value;
-    
+	
     if (location.row === rows -1 && location.col === cells -1) {
+		
       finished = true;
       return;
     }
+
   },
   200);
 
@@ -261,7 +273,6 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
       // location is not grass, mark it visited
       //visitedLocations.push({row: curRow, col: curCol});
       visitedLocations.add(JSON.stringify({ row: curRow, col: curCol }));
-      
     }
 	else {
 		
@@ -270,6 +281,7 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
       batteryLevel = batteryLevel - 5;
 	  
       if (batteryLevel == 20) {
+		  
         returnToCharger(path, curRow, curCol);
       }
     }
@@ -277,6 +289,7 @@ function findPathRecurse(path, curRow, curCol, nextRow, nextCol, pathFound) {
     pathFound = true;
     return true;
   }
+
   if (curRow < 0 || curRow >= rows || curCol < 0 || curCol >= columns)
     return false;
 
