@@ -10,11 +10,13 @@ To compile the sass on-the-fly, run `npn run sass`. This will launch the sass co
 
 Development was done with Visual Studio Code. The live server plugin was used to help with on-the-fly development changes.
 
+## Usage 
 
-
-## Usage
-
-None... as of yet...
+go to https://lawnbotbucket.s3.us-east-2.amazonaws.com/lawnbot/dist/index.html
+Click on Create Lawn or upload a lawn using Json file
+select the number of rows you would like to make. 
+Click on tiles that you would like to change
+Click on start button
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
