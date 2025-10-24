@@ -19,7 +19,7 @@
   },
   "homepage": "https://stephenbrough.github.io/lawnbot",
   "dependencies": {
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^5.0.0",
     "node-sass": "^9.0.0"
   }
 }
